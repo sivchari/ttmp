@@ -7,17 +7,20 @@ import (
 
 func T(t *testing.T, name string) (string, error) {
 	t.Helper()
-	return os.MkdirTemp("", name)
+	os.MkdirTemp("", name)        // want "os\\.MkdirTemp\\(\\) can be replaced by `t\\.TempDir\\(\\)`"
+	return os.MkdirTemp("", name) // want "os\\.MkdirTemp\\(\\) can be replaced by `testing\\.TempDir\\(\\)`"
 }
 
 func B(b *testing.B, name string) (string, error) {
 	b.Helper()
-	return os.MkdirTemp("", name)
+	os.MkdirTemp("", name)        // want "os\\.MkdirTemp\\(\\) can be replaced by `b\\.TempDir\\(\\)`"
+	return os.MkdirTemp("", name) // want "os\\.MkdirTemp\\(\\) can be replaced by `testing\\.TempDir\\(\\)`"
 }
 
 func TB(tb testing.TB, name string) (string, error) {
 	tb.Helper()
-	return os.MkdirTemp("", name)
+	os.MkdirTemp("", name)        // want "os\\.MkdirTemp\\(\\) can be replaced by `tb.TempDir\\(\\)`"
+	return os.MkdirTemp("", name) // want "os\\.MkdirTemp\\(\\) can be replaced by `testing.TempDir\\(\\)`"
 }
 
 func TDD(t *testing.T, name string) {
@@ -29,7 +32,7 @@ func TDD(t *testing.T, name string) {
 	} {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Helper()
-			os.MkdirTemp("", tt.name)
+			os.MkdirTemp("", tt.name) // want "os\\.MkdirTemp\\(\\) can be replaced by `t.TempDir\\(\\)` in anonymous function"
 		})
 	}
 }
